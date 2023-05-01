@@ -16,7 +16,7 @@ namespace BlazorEcommerce.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<ActionResult<List<Product>>> Get()
         {
             return Ok(products);
         }
@@ -47,7 +47,7 @@ namespace BlazorEcommerce.Server.Controllers
             if(product != null) products.Remove(product);
         }
 
-
+        [HttpGet("mocklist")]
         public void MockList()
         {
 
