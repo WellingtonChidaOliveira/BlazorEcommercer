@@ -7,56 +7,46 @@ namespace BlazorEcommerce.Server.Controllers
 
     public class ProductsController : ControllerBase
     {
-        private DataContext _service;
-        public ProductsController(DataContext service)
+        private IProductService _service;
+        public ProductsController(IProductService service)
         {
             _service = service;
 
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> Get()
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> Get()
         {
-            var products = await _service.Products.ToListAsync();
+            var products = await _service.Get();
             return Ok(products);
+        }
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ActionResult<ServiceResponse<Product>>> Get(int id)
+        {
+            var product = await _service.Get(id);
+            return Ok(product);
         }
 
         [HttpPost]
         public async Task<ActionResult> Post(Product product)
         {
-            await _service.Products.AddAsync(product);
-            await _service.SaveChangesAsync();
-            return NoContent();
+            var response = await _service.Add(product);
+            return Ok(response);
         }
+
         [HttpPost("/update")]
         public async Task<ActionResult> Update(Product product)
         {
-            var productToUpdate = await _service.Products.FirstOrDefaultAsync(p => p.Id == product.Id);
-            if (productToUpdate is null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                productToUpdate.Title = product.Title;
-                productToUpdate.Description = product.Description;
-                productToUpdate.ImageUrl = product.ImageUrl;
-                productToUpdate.Price = product.Price;
-            }
-            await _service.SaveChangesAsync();
-            return NoContent();
-
+            var response = await _service.Update(product);
+            return Ok(response);
         }
-
         [HttpDelete]
         public async Task<ActionResult> Delete(int id)
         {
-            var product = await _service.Products.FirstOrDefaultAsync(p => p.Id == id);
-            if (product is null) return NotFound();
+           var response = await _service.Delete(id);
 
-            _service.Products.Remove(product);
-
-            return NoContent();
+            return Ok(response);
         }
 
 
