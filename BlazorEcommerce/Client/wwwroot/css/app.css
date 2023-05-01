@@ -62,3 +62,23 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+
+.price {
+    color: green;
+}
+.media {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: transform .2s;
+}
+
+.media-body {
+    flex: 1;
+}

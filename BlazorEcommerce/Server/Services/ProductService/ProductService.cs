@@ -50,10 +50,20 @@
 
         public async Task<ServiceResponse<Product>> Get(int id)
         {
-            var response = new ServiceResponse<Product>()
+            var response = new ServiceResponse<Product>();
+
+            var product = await _service.Products.FindAsync(id);
+            if(product is null)
             {
-                Data = await _service.Products.FirstOrDefaultAsync(p => p.Id == id)
-            };
+                response.Message = "Product not found";
+                response.Success = false;
+            }
+            else
+            {
+                response.Data = product;
+                response.Message = "Product found";
+                response.Success = true;
+            }
             return response;
         }
 
