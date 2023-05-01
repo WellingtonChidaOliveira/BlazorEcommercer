@@ -8,5 +8,7 @@
         Task<ServiceResponse<Product>> Update(Product product);
         Task<ServiceResponse<List<Product>>> Delete(int id);
 
+        Task<ServiceResponse<List<Product>>> GetProductByCategory(string categoryUrl);
+
     }
 }

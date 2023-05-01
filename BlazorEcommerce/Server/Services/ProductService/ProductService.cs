@@ -67,6 +67,19 @@
             return response;
         }
 
+        public async Task<ServiceResponse<List<Product>>> GetProductByCategory(string categoryUrl)
+        {
+            var response = new ServiceResponse<List<Product>>
+            {
+                Data = await _service.Products
+                .Where(x => x.Category.Url.ToLower().Equals(categoryUrl.ToLower()))
+                .ToListAsync()
+            };
+
+            return response;
+            
+        }
+
         public async Task<ServiceResponse<Product>> Update(Product product)
         {
             var productToUpdate = await Get(product.Id);
